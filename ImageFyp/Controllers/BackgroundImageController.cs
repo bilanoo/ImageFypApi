@@ -20,7 +20,7 @@ namespace ImageFyp.Controllers
             yield return new BackgroundImage
             {
                 Id = 1,
-                Name = "yao.jpg"
+                Name = "yaoo.jpg"
             };
         }
 
