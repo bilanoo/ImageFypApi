@@ -9,19 +9,15 @@ using System.Threading.Tasks;
 
 namespace ImageFyp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/background")]
     [ApiController]
     public class BackgroundImageController : ControllerBase
     {
         // GET: api/<BackgroundImageController>
         [HttpGet]
-        public IEnumerable<BackgroundImage> Get()
+        public IActionResult GetBackground()
         {
-            yield return new BackgroundImage
-            {
-                Id = 1,
-                Name = "yao.jpg"
-            };
+            return Ok(BackgroundData.Current.Background);
         }
 
         // GET api/<BackgroundImageController>/5

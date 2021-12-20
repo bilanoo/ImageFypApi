@@ -8,6 +8,7 @@ namespace ImageFyp.Models
     public class BackgroundImage
     {
         public int Id { get; set; }
-        public String Name { get; set; }
+        public string Name { get; set; }
+        public string Url { get; set; }
     }
 }
