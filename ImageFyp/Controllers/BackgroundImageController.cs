@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ImageFyp.Controllers
 {
-    [Route("api/background")]
+    [Route("api/[controller]")]
     [ApiController]
     public class BackgroundImageController : ControllerBase
     {
