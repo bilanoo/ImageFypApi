@@ -13,20 +13,27 @@ namespace ImageFyp.Controllers
     [ApiController]
     public class BackgroundImageController : ControllerBase
     {
-        // GET: api/<BackgroundImageController>
+        // GET: all backgrounds.
         [HttpGet]
         public IActionResult GetBackground()
         {
             return Ok(BackgroundData.Current.Background);
         }
 
-        // GET api/<BackgroundImageController>/5
+        // Get individual ID, if invalid ID is prompt then, display not Found.
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetBackground(int id)
         {
-            return "value";
-        }
+            var backgroundToReturn = BackgroundData.Current.Background
+                .FirstOrDefault(c => c.Id == id);
 
+            if (backgroundToReturn == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(backgroundToReturn);
+        }
         // POST api/<BackgroundImageController>
         [HttpPost]
         public void Post([FromBody] string value)
