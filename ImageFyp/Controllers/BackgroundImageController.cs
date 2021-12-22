@@ -17,22 +17,14 @@ namespace ImageFyp.Controllers
         [HttpGet]
         public IActionResult GetBackground()
         {
-            return Ok(BackgroundData.Current.Background);
+            return Ok(BackgroundData.GetBackgroundImages());
         }
 
         // Get individual ID, if invalid ID is prompt then, display not Found.
         [HttpGet("{id}")]
-        public IActionResult GetBackground(int id)
+        public IActionResult GetBackgroundId(int id)
         {
-            var backgroundToReturn = BackgroundData.Current.Background
-                .FirstOrDefault(c => c.Id == id);
-
-            if (backgroundToReturn == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(backgroundToReturn);
+            return Ok(BackgroundData.GetBackgroundImageById(id));
         }
         // POST api/<BackgroundImageController>
         [HttpPost]
