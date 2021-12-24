@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/background",
+      "launchUrl": "api/BackgroundImage",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "ImageFyp": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/background",
+      "launchUrl": "api/BackgroundImage",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
