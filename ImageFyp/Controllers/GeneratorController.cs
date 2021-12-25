@@ -9,10 +9,11 @@ namespace ImageFyp.Controllers
     {
         // GET: Generator
 
-        [HttpGet("{id}")]
-        public ActionResult GetGenerator(int id)
+        [HttpGet("{id}/{userText}")]
+        public ActionResult GetGenerator(int id, string userText)
         {
-            
+
+           
             var selectedBackgroundImage = BackgroundData.GetBackgroundImageById(id);
             var imageUrl = selectedBackgroundImage.Url;
             var imageName = selectedBackgroundImage.Name;
