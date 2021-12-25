@@ -22,7 +22,7 @@ namespace ImageFyp.Controllers
 
         // Get individual ID, if invalid ID is prompt then, display not Found.
         [HttpGet("{id}")]
-        public IActionResult GetBackgroundId(int id)
+        public IActionResult GetBackgroundById(int id)
         {
             return Ok(BackgroundData.GetBackgroundImageById(id));
         }

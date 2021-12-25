@@ -19,29 +19,31 @@ namespace ImageFyp
             {
                 Id = 1,
                 Name = "Beach",
-                Url = "D:/Development/ImageFypApis/ImageFyp/ImageFyp/Beach.jpg",
+                Url = @"D:\Development\ImageFypApis\ImageFyp\ImageFyp\Backgrounds\beach.jpg",
             },
 
             new BackgroundImage()
             {
                 Id = 2,
                 Name = "Mountain",
-                Url = "D:/Development/ImageFypApis/ImageFyp/ImageFyp/Mountain.jpg",
+                Url = @"D:\Development\ImageFypApis\ImageFyp\ImageFyp\Backgrounds\mountain.jpg",
             },
 
             new BackgroundImage()
             {
                 Id= 3,
                 Name = "London",
-                Url = "D:/Development/ImageFypApis/ImageFyp/ImageFyp/Lodnon.jpg",
+                Url = @"D:\Development\ImageFypApis\ImageFyp\ImageFyp\Backgrounds\london.jpg",
             },
 
             new BackgroundImage()
             {
                 Id = 4,
                 Name = "New York",
-                Url = "D:/Development/ImageFypApis/ImageFyp/ImageFyp/NewYork.jpg",
+                Url = @"D:\Development\ImageFypApis\ImageFyp\ImageFyp\Backgrounds\newyork.jpg",
             }
+
+          
         };
 
         public static BackgroundImage GetBackgroundImageById (int id)
