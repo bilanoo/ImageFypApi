@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ImageFyp.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ImageFyp.Controllers
@@ -19,6 +20,19 @@ namespace ImageFyp.Controllers
             var imageName = selectedBackgroundImage.Name;
             byte[] b = System.IO.File.ReadAllBytes(imageUrl);
             return File(b, imageName + "/jpeg");
+        }
+
+         // POST api/Generator
+        [HttpPost]
+        public ActionResult Post([FromBody] GeneratorInstructions instructions)
+        {
+
+
+            var selectedBackgroundImage = BackgroundData.GetBackgroundImageById(instructions.Id);
+            var imageUrl = selectedBackgroundImage.Url;
+            var imageName = selectedBackgroundImage.Name;
+            byte[] b = System.IO.File.ReadAllBytes(imageUrl);
+            return File(b, "image/jpeg");
         }
 
         
