@@ -1,10 +1,13 @@
 ﻿using ImageFyp.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Net;
+
+
 
 namespace ImageFyp.Controllers
 {
@@ -13,88 +16,116 @@ namespace ImageFyp.Controllers
     public class GeneratorController : Controller
     {
         // GET: Generator
-        [HttpGet("{id}/{userText}")]
-        public ActionResult GetGenerator(int id, string userText)
-        {
-
-
-            var selectedBackgroundImage = BackgroundData.GetBackgroundImageById(id);
-            var imageUrl = selectedBackgroundImage.Url;
-
-            PointF firstLocation = new PointF(10f, 10f);
-
-            Bitmap bitmap = (Bitmap)Image.FromFile(imageUrl);
-
-            using (Graphics graphics = Graphics.FromImage(bitmap))
-            {
-                using (Font arialFont = new Font("Arial", 100))
-                {
-                    graphics.DrawString(userText, arialFont, Brushes.Blue, firstLocation);
-                }
-
-            }
-
-            using (var stream = new MemoryStream())
-            {
-                bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                return File(stream.ToArray(), "image/jpeg");
-            }
-
-
-
-        }
-
-        //[HttpPost]
-        //public IActionResult ExternalImageFromUrl([FromBody] GeneratorInstructions instruction)
+        //[HttpGet("{id}/{userText}")]
+        //public ActionResult GetGenerator(int id, string userText)
         //{
-        //    var externalImageUrl = instruction.ExternalImageUrl;
 
-        //    using (WebClient client = new WebClient())
+
+        //    var selectedBackgroundImage = BackgroundData.GetBackgroundImageById(id);
+        //    var imageUrl = selectedBackgroundImage.Url;
+
+        //    PointF firstLocation = new PointF(10f, 10f);
+
+        //    Bitmap bitmap = (Bitmap)Image.FromFile(imageUrl);
+
+        //    using (Graphics graphics = Graphics.FromImage(bitmap))
         //    {
-        //        byte[] dataArr = client.DownloadData(externalImageUrl);
-
-        //        File.WriteAllBytes(@"D:\PracticeCoding\Exercise\Exercise\Backgrounds\example.jpeg", dataArr);
-
+        //        using (Font arialFont = new Font("Arial", 100))
+        //        {
+        //            graphics.DrawString(userText, arialFont, Brushes.Blue, firstLocation);
+        //        }
 
         //    }
 
-        //    WebClient clients = new WebClient();
-        //    Stream stream = clients.OpenRead(externalImageUrl);
-        //    Bitmap bitmap;
-        //    bitmap = new Bitmap(stream);
+        //    using (var stream = new MemoryStream())
+        //    {
+        //        bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+        //        return File(stream.ToArray(), "image/jpeg");
+        //    }
+
+
 
         //}
-
         
-        [HttpPost]
-        public ActionResult AddTextToImage([FromBody] GeneratorInstructions instructions)
+        [HttpGet]
+        public IActionResult GetImageFromExternalUrl(string externalUrl)
         {
-            var selectedBackgroundImage = BackgroundData.GetBackgroundImageById(instructions.Id);
-            var imageUrl = selectedBackgroundImage.Url;
-            var userText = instructions.UserText;
-            var fontName = instructions.FontName;
-            var fontSize = instructions.FontSize;
+            externalUrl = "https://i.stack.imgur.com/KOU3H.png";
+            WebRequest request = WebRequest.Create(externalUrl);
+            WebResponse response = request.GetResponse();
+            Stream responseStream = response.GetResponseStream();
+
+            Bitmap bitmap2 = new Bitmap(responseStream);
+
+            using (var stream = new MemoryStream())
+            {
+                bitmap2.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return File(stream.ToArray(), "image/jpeg");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult AddTextToExternalImages([FromBody] GeneratorInstructions instructions)
+        {
+
+            WebRequest request = WebRequest.Create(instructions.ExternalImageUrl);
+            WebResponse response = request.GetResponse();
+            Stream responseStream = response.GetResponseStream();
+
             
+
+            Bitmap bitmap = new Bitmap(responseStream);
 
             PointF firstLocation = new PointF(10f, 10f);
 
-            Bitmap bitmap = (Bitmap)Image.FromFile(imageUrl);
+            Bitmap bitmap2 = new Bitmap(bitmap);
 
-            using (Graphics graphics = Graphics.FromImage(bitmap))
+            using (Graphics graphics = Graphics.FromImage(bitmap2))
             {
-                using (Font fontType = new Font(fontName, fontSize))
+                using (Font fontType = new Font(instructions.FontName, instructions.FontSize))
                 {
-                    graphics.DrawString(userText, fontType, Brushes.Blue, firstLocation);
+                    
+                    graphics.DrawString(instructions.UserText, fontType, Brushes.Blue, firstLocation);
                 }
 
             }
 
             using (var stream = new MemoryStream())
             {
-                bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                return File(stream.ToArray(), "image/jpeg");
+                bitmap2.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return File(stream.ToArray(), "image/png");
             }
         }
+
+        //[HttpPost]
+        //public ActionResult AddTextToBackgroundImage([FromBody] GeneratorInstructions instructions)
+        //{
+        //    var selectedBackgroundImage = BackgroundData.GetBackgroundImageById(instructions.Id);
+        //    var imageUrl = selectedBackgroundImage.Url;
+        //    var userText = instructions.UserText;
+        //    var fontName = instructions.FontName;
+        //    var fontSize = instructions.FontSize;
+
+
+        //    PointF firstLocation = new PointF(10f, 10f);
+
+        //    Bitmap bitmap = (Bitmap)Image.FromFile(imageUrl);
+
+        //    using (Graphics graphics = Graphics.FromImage(bitmap))
+        //    {
+        //        using (Font fontType = new Font(fontName, fontSize))
+        //        {
+        //            graphics.DrawString(userText, fontType, Brushes.Blue, firstLocation);
+        //        }
+
+        //    }
+
+        //    using (var stream = new MemoryStream())
+        //    {
+        //        bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+        //        return File(stream.ToArray(), "image/jpeg");
+        //    }
+        //}
 
         //[HttpPost]
         //public ActionResult Post([FromBody] GeneratorInstructions instructions)
@@ -123,7 +154,7 @@ namespace ImageFyp.Controllers
         //    }
         //}
 
-        
+
         //[HttpGet("{id}/{userText}")]
         //public ActionResult GetGenerator(int id, string userText)
         //{
@@ -150,6 +181,6 @@ namespace ImageFyp.Controllers
         //}
 
 
-        
+
     }
 }
