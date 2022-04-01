@@ -15,38 +15,7 @@ namespace ImageFyp.Controllers
     [ApiController]
     public class GeneratorController : Controller
     {
-        // GET: Generator
-        //[HttpGet("{id}/{userText}")]
-        //public ActionResult GetGenerator(int id, string userText)
-        //{
-
-
-        //    var selectedBackgroundImage = BackgroundData.GetBackgroundImageById(id);
-        //    var imageUrl = selectedBackgroundImage.Url;
-
-        //    PointF firstLocation = new PointF(10f, 10f);
-
-        //    Bitmap bitmap = (Bitmap)Image.FromFile(imageUrl);
-
-        //    using (Graphics graphics = Graphics.FromImage(bitmap))
-        //    {
-        //        using (Font arialFont = new Font("Arial", 100))
-        //        {
-        //            graphics.DrawString(userText, arialFont, Brushes.Blue, firstLocation);
-        //        }
-
-        //    }
-
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-        //        return File(stream.ToArray(), "image/jpeg");
-        //    }
-
-
-
-        //}
-        
+       
         [HttpGet]
         public IActionResult GetImageFromExternalUrl(string externalUrl)
         {
@@ -76,7 +45,7 @@ namespace ImageFyp.Controllers
 
             Bitmap bitmap = new Bitmap(responseStream);
 
-            PointF firstLocation = new PointF(10f, 10f);
+            PointF textLocation = new PointF(10f, 10f);
 
             Bitmap bitmap2 = new Bitmap(bitmap);
 
@@ -85,7 +54,7 @@ namespace ImageFyp.Controllers
                 using (Font fontType = new Font(instructions.FontName, instructions.FontSize))
                 {
                     
-                    graphics.DrawString(instructions.UserText, fontType, Brushes.Blue, firstLocation);
+                    graphics.DrawString(instructions.UserText, fontType, Brushes.Blue, textLocation);
                 }
 
             }
@@ -96,89 +65,6 @@ namespace ImageFyp.Controllers
                 return File(stream.ToArray(), "image/png");
             }
         }
-
-        //[HttpPost]
-        //public ActionResult AddTextToBackgroundImage([FromBody] GeneratorInstructions instructions)
-        //{
-        //    var selectedBackgroundImage = BackgroundData.GetBackgroundImageById(instructions.Id);
-        //    var imageUrl = selectedBackgroundImage.Url;
-        //    var userText = instructions.UserText;
-        //    var fontName = instructions.FontName;
-        //    var fontSize = instructions.FontSize;
-
-
-        //    PointF firstLocation = new PointF(10f, 10f);
-
-        //    Bitmap bitmap = (Bitmap)Image.FromFile(imageUrl);
-
-        //    using (Graphics graphics = Graphics.FromImage(bitmap))
-        //    {
-        //        using (Font fontType = new Font(fontName, fontSize))
-        //        {
-        //            graphics.DrawString(userText, fontType, Brushes.Blue, firstLocation);
-        //        }
-
-        //    }
-
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-        //        return File(stream.ToArray(), "image/jpeg");
-        //    }
-        //}
-
-        //[HttpPost]
-        //public ActionResult Post([FromBody] GeneratorInstructions instructions)
-        //{
-        //    var selectedBackgroundImage = BackgroundData.GetBackgroundImageById(instructions.Id);
-        //    var imageUrl = selectedBackgroundImage.Url;
-        //    var userText = instructions.UserText;
-
-        //    PointF firstLocation = new PointF(10f, 10f);
-
-        //    Bitmap bitmap = (Bitmap)Image.FromFile(imageUrl);
-
-        //    using (Graphics graphics = Graphics.FromImage(bitmap))
-        //    {
-        //        using (Font arialFont = new Font("Arial", 300))
-        //        {
-        //            graphics.DrawString(userText, arialFont, Brushes.Blue, firstLocation);
-        //        }
-
-        //    }
-
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-        //        return File(stream.ToArray(), "image/jpeg");
-        //    }
-        //}
-
-
-        //[HttpGet("{id}/{userText}")]
-        //public ActionResult GetGenerator(int id, string userText)
-        //{
-
-
-        //    var selectedBackgroundImage = BackgroundData.GetBackgroundImageById(id);
-        //    var imageUrl = selectedBackgroundImage.Url;
-        //    var imageName = selectedBackgroundImage.Name;
-        //    byte[] b = System.IO.File.ReadAllBytes(imageUrl);
-        //    return File(b, imageName + "/jpeg");
-        //}
-
-        // POST api/Generator
-        //[HttpPost]
-        //public ActionResult Post([FromBody] GeneratorInstructions instructions)
-        //{
-
-
-        //    var selectedBackgroundImage = BackgroundData.GetBackgroundImageById(instructions.Id);
-        //    var imageUrl = selectedBackgroundImage.Url;
-        //    var imageName = selectedBackgroundImage.Name;
-        //    byte[] b = System.IO.File.ReadAllBytes(imageUrl);
-        //    return File(b, "image/jpeg");
-        //}
 
 
 
