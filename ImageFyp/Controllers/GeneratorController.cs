@@ -11,11 +11,43 @@ using System.Net;
 
 namespace ImageFyp.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class GeneratorController : Controller
     {
-       
+        //GET: Generator
+       [HttpGet("{id}/{userText}")]
+        public ActionResult GetEditLocalImages(int id, string userText)
+        {
+
+
+            var selectedBackgroundImage = BackgroundData.GetBackgroundImageById(id);
+            var imageUrl = selectedBackgroundImage.Url;
+
+            PointF textLocation = new PointF(10f, 10f);
+
+            Bitmap bitmap = (Bitmap)Image.FromFile(imageUrl);
+
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                using (Font arialFont = new Font("Arial", 100))
+                {
+                    graphics.DrawString(userText, arialFont, Brushes.Blue, textLocation);
+                }
+
+            }
+
+            using (var stream = new MemoryStream())
+            {
+                bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return File(stream.ToArray(), "image/jpeg");
+            }
+
+
+
+        }
+
         [HttpGet]
         public IActionResult GetImageFromExternalUrl(string externalUrl)
         {
@@ -32,7 +64,7 @@ namespace ImageFyp.Controllers
                 return File(stream.ToArray(), "image/jpeg");
             }
         }
-
+        
         [HttpPost]
         public IActionResult AddTextToExternalImages([FromBody] GeneratorInstructions instructions)
         {
@@ -41,20 +73,27 @@ namespace ImageFyp.Controllers
             WebResponse response = request.GetResponse();
             Stream responseStream = response.GetResponseStream();
 
-            
+            // declared a brush and the colour value will be assigned via the property
+            SolidBrush fontBrush = new SolidBrush(Color.FromName(instructions.FontColour));
+
 
             Bitmap bitmap = new Bitmap(responseStream);
 
-            PointF textLocation = new PointF(10f, 10f);
-
             Bitmap bitmap2 = new Bitmap(bitmap);
 
+            
             using (Graphics graphics = Graphics.FromImage(bitmap2))
             {
                 using (Font fontType = new Font(instructions.FontName, instructions.FontSize))
                 {
-                    
-                    graphics.DrawString(instructions.UserText, fontType, Brushes.Blue, textLocation);
+                    Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+
+                    StringFormat sf = new StringFormat();
+                    sf.LineAlignment = StringAlignment.Center;
+                    sf.Alignment = StringAlignment.Center;
+
+                    graphics.DrawString(instructions.UserText, fontType, fontBrush, rect, sf);
+
                 }
 
             }

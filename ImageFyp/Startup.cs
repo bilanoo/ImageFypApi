@@ -21,20 +21,23 @@ namespace ImageFyp
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtime. Container services
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(c =>
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-            });
+                builder.WithOrigins("*")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddControllers();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. HTTP pipeline set up
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
+            // Solve NOCORS issue by adding a policy
+            app.UseCors("MyPolicy");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -15,6 +15,8 @@ namespace ImageFyp.Models
 
         public int FontSize { get; set; }
 
+        public string FontColour { get; set; }
+
 
     }
 }
